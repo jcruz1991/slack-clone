@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 export default (sequelize, DataTypes) => {
     const User = sequelize.define('user', {
         username: {
@@ -10,7 +12,7 @@ export default (sequelize, DataTypes) => {
                 },
                 len: {
                     args: [3, 25],
-                    msg: 'The username needs to be between 3 and 25 characters long',
+                    msg: 'The username needs to be between 3 and 25 characters',
                 },
             },
         },
@@ -24,7 +26,25 @@ export default (sequelize, DataTypes) => {
                 },
             },
         },
-        password: DataTypes.STRING,
+        password: {
+            type: DataTypes.STRING,
+            validate: {
+                len: {
+                    args: [5, 100],
+                    msg: 'The password needs to be between 5 and 100 characters'
+                }
+            }
+        }
+    }, {
+        hooks: {
+            afterValidate: async (user, options) => {
+              const hashedPassword = await bcrypt.hash(user.password, 12);
+              return {
+                  ...user,
+                  password: hashedPassword
+              };
+            }
+          }
     });
 
     User.associate = (models) => {
