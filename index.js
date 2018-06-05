@@ -8,6 +8,9 @@ import cors from 'cors';
 
 import models from './models';
 
+const SECRET = 'sgisjgrriwejgif';
+const SECRET2 = 'sgisjgrriwejgif234324njfn';
+
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './schema')));
 
 const resolvers = mergeResolvers(fileLoader(path.join(__dirname, './resolvers')));
@@ -26,6 +29,8 @@ const graphqlEndpoint = '/graphql';
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: schema, context: {
     models,
+    SECRET,
+    SECRET2
 } }));
 app.use('/graphiql', graphiqlExpress({ endpointURL: graphqlEndpoint }));
 
