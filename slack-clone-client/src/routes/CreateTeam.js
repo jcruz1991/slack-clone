@@ -24,6 +24,7 @@ class CreateTeam extends Component {
     onSubmit = async () => {
         const { name } = this;
 
+
         const response = await this.props.mutate({
             variables: { name },
         });
@@ -41,6 +42,7 @@ class CreateTeam extends Component {
               err[`${path}Error`] = message;
             });
             this.errors = err;
+            console.log(this.errors);
         }
     }
 

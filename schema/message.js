@@ -1,4 +1,5 @@
 export default `
+
   type Message {
     id: Int!
     text: String!
@@ -9,4 +10,5 @@ export default `
   type Mutation {
     createMessage(channelId: Int!, text: String!): Boolean!
   }
+
 `;

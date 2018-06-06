@@ -18,8 +18,8 @@ const middlewareLink = new ApolloLink((operation, forward) => {
     // add the authorization to the headers
     operation.setContext({
       headers: {
-        authorization: localStorage.getItem('token') || null,
-        refreshAuthorization: localStorage.getItem('refreshToken') || null,
+        'x-token': localStorage.getItem('token') || null,
+        'x-refresh-token': localStorage.getItem('refreshToken') || null,
       } 
     });
 
@@ -32,10 +32,15 @@ const afterwareLink = new ApolloLink((operation, forward) => {
         const { response: { headers } } = context;
         
         if(headers) {
+            const token = headers.get('token');
             const refreshToken = headers.get('x-refresh-token');
-        if(refreshToken) {
-            localStorage.setItem('refreshToken', refreshToken);
-        }
+            
+            if(token) {
+                localStorage.setItem('token', token);
+            }
+            if(refreshToken) {
+                localStorage.setItem('refreshToken', refreshToken);
+            }
     }
         return response;
     });
