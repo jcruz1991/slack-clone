@@ -14,8 +14,11 @@ const allUsersQuery = gql`
 
 class Home extends Component {
 
-    render() {
+    componentDidMount = () => {
+        console.log(this.props);
+    }
 
+    render() {
         const loading = this.props.data.loading;
         const allUsers = this.props.data.allUsers;
 
