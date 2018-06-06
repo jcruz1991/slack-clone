@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { extendObservable } from 'mobx';
 import { observer } from 'mobx-react';
-import { Container, Header, Input, Button } from 'semantic-ui-react';
+import { Container, Header, Input, Button, Form, Message } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
 import gql from "graphql-tag";
 
@@ -12,7 +12,8 @@ class Login extends Component {
 
         extendObservable(this, {
             email: '',
-            password: ''
+            password: '',
+            errors: {},
         });
     }
 
@@ -30,37 +31,74 @@ class Login extends Component {
 
         console.log(response);
 
-        const { ok, token, refreshToken } = response.data.login;
+        const { ok, errors, token, refreshToken } = response.data.login;
 
         if(ok) {
             localStorage.setItem('token', token);
             localStorage.setItem('refreshToken', refreshToken);
+            this.props.history.push('/');
+        } else {
+            const err = {};
+
+            errors.forEach(({ path, message }) => {
+              // err['passwordError'] = 'too long..';
+              err[`${path}Error`] = message;
+            });
+      
+            this.errors = err;
         }
     }
 
     render() {
 
-        const { email, password } = this;
+        const { email, password, errors: { emailError, passwordError } } = this;
+
+        const errorList = [];
+
+        if(emailError) {
+            errorList.push(emailError);
+        }
+        if(passwordError) {
+            errorList.push(passwordError);
+        }
+
         return(
             <Container text>
             <Header as='h2'>Login</Header>
-            <Input 
-              name='email'
-              value={ email } 
-              fluid 
-              placeholder='Email' 
-              onChange={this.onChange} 
-            />
+            <Form>
 
-            <Input
-              name='password'
-              value={ password } 
-              fluid 
-              placeholder='Password' 
-              type='password' 
-              onChange={this.onChange} 
-            />
-            <Button onClick={this.onSubmit}>Submit</Button>
+                <Form.Field error={!!emailError}>
+                    <Input 
+                      name='email'
+                      value={ email } 
+                      fluid 
+                      placeholder='Email' 
+                      onChange={this.onChange} 
+                    />
+                </Form.Field>
+
+                <Form.Field error={!!passwordError}>    
+                    <Input
+                      name='password'
+                      value={ password } 
+                      fluid 
+                      placeholder='Password' 
+                      type='password' 
+                      onChange={this.onChange} 
+                    />
+                </Form.Field>
+
+                <Button onClick={this.onSubmit}>Submit</Button>
+            </Form>
+            
+            {errorList.length ? (
+                <Message
+                  error
+                  header='Unable to register'
+                  list={errorList}
+                />) : null
+            }
+
         </Container>
         )
     }

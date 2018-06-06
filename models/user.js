@@ -39,10 +39,7 @@ export default (sequelize, DataTypes) => {
         hooks: {
             afterValidate: async (user, options) => {
               const hashedPassword = await bcrypt.hash(user.password, 12);
-              return {
-                  ...user,
-                  password: hashedPassword
-              };
+              user.password = hashedPassword;
             }
           }
     });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Input, Button, Message } from 'semantic-ui-react';
+import { Container, Header, Input, Button, Message, Form } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
 import gql from "graphql-tag";
 
@@ -79,40 +79,47 @@ class Register extends Component {
         return(
             <Container text>
                 <Header as='h2'>Register</Header>
-                <Input 
-                  // !! turns string into boolean
-                  error={!!usernameError}
-                  name='username'
-                  value={ username } 
-                  fluid 
-                  placeholder='Username' 
-                  onChange={this.onChange} 
-                />
+                <Form>
+                    <Form.Field error={!!usernameError}>
+                        <Input 
+                          name='username'
+                          value={ username } 
+                          fluid 
+                          placeholder='Username' 
+                          onChange={this.onChange} 
+                        />
+                    </Form.Field>
 
-                <Input 
-                  error={!!emailError}
-                  name='email'
-                  value={ email } 
-                  fluid 
-                  placeholder='Email' 
-                  onChange={this.onChange} 
-                />
+                    <Form.Field error={!!emailError}>
+                        <Input
+                          name='email'
+                          value={ email } 
+                          fluid 
+                          placeholder='Email' 
+                          onChange={this.onChange} 
+                        />
+                    </Form.Field>
 
-                <Input
-                  error={!!passwordError}
-                  name='password'
-                  value={ password } 
-                  fluid 
-                  placeholder='Password' 
-                  type='password' 
-                  onChange={this.onChange} 
-                />
-                <Button onClick={this.onSubmit}>Submit</Button>
-                {(usernameError || emailError || passwordError) ? (<Message
-                  error
-                  header='Unable to register'
-                  list={errorList}
-                />) : null}
+                    <Form.Field error={!!passwordError}>
+                        <Input
+                          name='password'
+                          value={ password } 
+                          fluid 
+                          placeholder='Password' 
+                          type='password' 
+                          onChange={this.onChange} 
+                        />
+                    </Form.Field>
+                    <Button onClick={this.onSubmit}>Submit</Button>
+                </Form>
+
+                {errorList.length ? (<Message
+                      error
+                      header='Unable to register'
+                      list={errorList}
+                    />) : null
+                }
+
             </Container>
         )
     }
