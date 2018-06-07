@@ -24,12 +24,19 @@ class CreateTeam extends Component {
     onSubmit = async () => {
         const { name } = this;
 
+        let response = null;
 
-        const response = await this.props.mutate({
-            variables: { name },
-        });
+        try{
+            response = await this.props.mutate({
+                variables: { name },
+            });
 
-        console.log(response);
+            console.log(response);
+            
+        } catch(err) {
+            this.props.history.push('/login');
+            return;
+        }
 
         const { ok, errors } = response.data.createTeam;
 
@@ -86,15 +93,15 @@ class CreateTeam extends Component {
 }
 
 const createTeamMutation = gql`
-  mutation($name: String!) {
-    createTeam(name: $name) {
-      ok
-      errors {
-        path
-        message
-      }
+    mutation($name: String!) {
+        createTeam(name: $name) {
+            ok
+            errors {
+                path
+                message
+            }
+        }
     }
-  }
 `;
 
 export default graphql(createTeamMutation)(observer(CreateTeam));
