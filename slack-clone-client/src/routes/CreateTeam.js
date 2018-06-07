@@ -86,15 +86,15 @@ class CreateTeam extends Component {
 }
 
 const createTeamMutation = gql`
-    mutation($name: String) {
-        createTeam(name: $name) {
-            ok
-            errors {
-                path
-                message
-            }
-        }
+  mutation($name: String!) {
+    createTeam(name: $name) {
+      ok
+      errors {
+        path
+        message
+      }
     }
+  }
 `;
 
 export default graphql(createTeamMutation)(observer(CreateTeam));
