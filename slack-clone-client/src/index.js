@@ -14,6 +14,7 @@ const httpLink = createHttpLink({
     uri: 'http://localhost:8080/graphql',
 });
 
+// Middleware
 const middlewareLink = new ApolloLink((operation, forward) => {
     // add the authorization to the headers
     operation.setContext({
@@ -26,11 +27,16 @@ const middlewareLink = new ApolloLink((operation, forward) => {
     return forward(operation);
 });
 
+// Aterware
 const afterwareLink = new ApolloLink((operation, forward) => {
     return forward(operation).map(response => {
+
+        // passes back object with headers in it
         const context = operation.getContext();
+        // Get headers
         const { response: { headers } } = context;
         
+        // Set tokens if headers exists
         if(headers) {
             const token = headers.get('token');
             const refreshToken = headers.get('x-refresh-token');

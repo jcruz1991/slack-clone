@@ -65,3 +65,10 @@ typings/
 
 # Serverless directories
 .serverless
+
+# vscode Settings
+.vscode
+
+# lock
+package-lock.json
+yarn.lock

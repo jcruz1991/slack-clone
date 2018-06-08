@@ -12,7 +12,7 @@ const Sidebar = ({ data: { loading, allTeams }, currentTeamId }) => {
       return null;
     }
 
-    const teamIndex = _.findIndex(allTeams, ['id', currentTeamId]);
+    const teamIndex = currentTeamId ? _.findIndex(allTeams, ['id', parseInt(currentTeamId, 10)]) : 0;
     const team = allTeams[teamIndex];
     let username = '';
     try {

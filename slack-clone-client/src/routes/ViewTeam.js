@@ -4,13 +4,15 @@ import Header from '../components/Header';
 import SendInput from '../components/SendInput';
 import Messages from '../components/Messages';
 import Sidebar from '../containers/Sidebar';
-
-
 class ViewTeam extends Component {
+
     render() {
+
+        const { match: { params } } = this.props;
+
         return(
             <AppLayout>
-                <Sidebar currentTeamId={1} />
+                <Sidebar currentTeamId={ params.teamId } />
                 <Header
                  channelName="general"
                 />
