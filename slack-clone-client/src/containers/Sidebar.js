@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-import _ from 'lodash';
 import decode from 'jwt-decode';
 
 import Channels from '../components/Channels';
 import Teams from '../components/Teams';
 import AddChannelModal from '../components/AddChannelModal';
-import { allTeamsQuery } from '../graphql/team';
 
 
 class Sidebar extends Component {
@@ -32,15 +29,9 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { data: { loading, allTeams }, currentTeamId } = this.props;
+    const { teams, team } = this.props;
     let { openAddChannelModel } = this.state;
 
-    if (loading) {
-      return null;
-    }
-
-    const teamIndex = currentTeamId ? _.findIndex(allTeams, ['id', parseInt(currentTeamId, 10)]) : 0;
-    const team = allTeams[teamIndex];
     let username = '';
 
     try {
@@ -55,10 +46,7 @@ class Sidebar extends Component {
       <React.Fragment>
         <Teams
           key="team-sidebar"
-          teams={allTeams.map(t => ({
-            id: t.id,
-            letter: t.name.charAt(0).toUpperCase(),
-          }))}
+          teams={teams}
         />
         
         <Channels
@@ -80,4 +68,4 @@ class Sidebar extends Component {
   }
 };
 
-export default graphql(allTeamsQuery)(Sidebar);
+export default Sidebar;
