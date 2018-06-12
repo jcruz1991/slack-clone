@@ -17,7 +17,7 @@ class ViewTeam extends Component {
                  channelName="general"
                 />
                 <Messages>
-                    <ul class="message-list">
+                    <ul className="message-list">
                     <li></li>
                     <li></li>
                     </ul>
