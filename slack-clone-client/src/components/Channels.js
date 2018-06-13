@@ -40,6 +40,15 @@ const SidebarListItem = styled.li`
     }
 `;
 
+const SidebareInviteItem = styled.a`
+    padding: 2px 2px 2px 10px;
+    color: #948994;
+    &:hover {
+        color: #948994;
+        cursor: pointer;
+    }
+`;
+
 const Green = styled.span`color: #38978d;`;
 
 const Bubble = ({ on = true }) => (on ? <Green>●</Green> : '○');
@@ -57,7 +66,7 @@ const user= ({ id, name }) => (
 );
 
 
-export default ({ teamName, username, channels, users, onAddChannelClick, teamId }) => (
+export default ({ teamName, username, channels, users, onAddChannelClick, teamId, onInvitePeopleClick }) => (
     <ChannelWrapper>
         <ChannelHeader>
             <TeamNameHeader>{ teamName }</TeamNameHeader>
@@ -74,6 +83,9 @@ export default ({ teamName, username, channels, users, onAddChannelClick, teamId
                 <SidebareListHeader>Direct Message</SidebareListHeader>
                 { users.map(user) }
             </SidebarList>
+        </div>
+        <div>
+            <SidebareInviteItem href="#invite-people" onClick={onInvitePeopleClick}>+ Invite People</SidebareInviteItem>
         </div>
     </ChannelWrapper>
 )

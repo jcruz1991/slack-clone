@@ -19,10 +19,10 @@ class ViewTeam extends Component {
             return null; // blank screen
         }
 
-        const teamIndex = !!teamId ? _.findIndex(allTeams, ['id', parseInt(teamId, 10)]) : 0;
+        const teamIndex = teamId ? _.findIndex(allTeams, ['id', parseInt(teamId, 10)]) : 0;
         const team = allTeams[teamIndex];
 
-        const channelIndex =  !!channelId ? _.findIndex(team.channels, ['id', parseInt(channelId, 10)]) : 0;
+        const channelIndex =  channelId ? _.findIndex(team.channels, ['id', parseInt(channelId, 10)]) : 0;
         const channel = team.channels[channelIndex];
 
         return(
