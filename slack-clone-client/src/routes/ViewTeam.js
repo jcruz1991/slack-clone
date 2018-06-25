@@ -25,9 +25,7 @@ class ViewTeam extends Component {
         if(!teams.length) {
             return <Redirect to='/create-team' />;
         }
-
-        console.log(teams);
-
+        
         const teamIndex = teamId ? _.findIndex(teams, ['id', parseInt(teamId, 10)]) : 0;
         const team = teams[teamIndex];
 

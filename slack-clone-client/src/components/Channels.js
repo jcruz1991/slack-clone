@@ -66,7 +66,16 @@ const user= ({ id, name }) => (
 );
 
 
-export default ({ teamName, username, channels, users, onAddChannelClick, teamId, onInvitePeopleClick }) => (
+export default ({ 
+    teamName, 
+    username, 
+    channels, 
+    users, 
+    onAddChannelClick, 
+    teamId, 
+    onInvitePeopleClick, 
+    isOwner, 
+}) => (
     <ChannelWrapper>
         <ChannelHeader>
             <TeamNameHeader>{ teamName }</TeamNameHeader>
@@ -74,7 +83,7 @@ export default ({ teamName, username, channels, users, onAddChannelClick, teamId
         </ChannelHeader>
         <div>
             <SidebarList>
-                <SidebareListHeader>Channels <Icon onClick={onAddChannelClick} name='add circle' /></SidebareListHeader>
+                <SidebareListHeader>Channels {isOwner && <Icon onClick={onAddChannelClick} name='add circle' />}</SidebareListHeader>
                 { channels.map((c) => channel(c, teamId)) }
             </SidebarList>
         </div>
@@ -84,8 +93,10 @@ export default ({ teamName, username, channels, users, onAddChannelClick, teamId
                 { users.map(user) }
             </SidebarList>
         </div>
-        <div>
-            <SidebareInviteItem href="#invite-people" onClick={onInvitePeopleClick}>+ Invite People</SidebareInviteItem>
-        </div>
+        { isOwner && (
+            <div>
+                <SidebareInviteItem href="#invite-people" onClick={onInvitePeopleClick}>+ Invite People</SidebareInviteItem>
+            </div>
+        )}
     </ChannelWrapper>
 )
