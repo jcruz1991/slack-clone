@@ -19,29 +19,41 @@ class Sidebar extends Component {
     };
   }
 
-  handleAddChannelClick = () => {
+  toggleAddChannelModal = (e) => {
+    if(e) {
+      e.preventDefault();
+    }
     this.setState({
-      openAddChannelModal: true
+      openAddChannelModal: !this.state.openAddChannelModal
     });
   }
 
-  handleCloseAddChannelClick = () => {
+  toggleInvitePeopleModal = (e) => {
+    if(e) {
+      e.preventDefault();
+    }
     this.setState({
-      openAddChannelModal: false
+      openInvitePeopleModal: !this.state.openInvitePeopleModal
     });
   }
 
-  handleInvitePeopleClick = () => {
-    this.setState({
-      openInvitePeopleModal: true
-    });
-  }
+  // handleCloseAddChannelClick = () => {
+  //   this.setState({
+  //     openAddChannelModal: false
+  //   });
+  // }
 
-  handleCloseInvitePeopleClick = () => {
-    this.setState({
-      openInvitePeopleModal: false
-    });
-  }
+  // handleInvitePeopleClick = () => {
+  //   this.setState({
+  //     openInvitePeopleModal: true
+  //   });
+  // }
+
+  // handleCloseInvitePeopleClick = () => {
+  //   this.setState({
+  //     openInvitePeopleModal: false
+  //   });
+  // }
 
   render() {
     const { teams, team } = this.props;
@@ -71,18 +83,18 @@ class Sidebar extends Component {
           teamId={team.id}
           channels={team.channels}
           users={[{ id: 1, name: 'slackbot' }, { id: 2, name: 'user1' }]}
-          onAddChannelClick={this.handleAddChannelClick}
-          onInvitePeopleClick={this.handleInvitePeopleClick}
+          onAddChannelClick={this.toggleAddChannelModal}
+          onInvitePeopleClick={this.toggleInvitePeopleModal}
         />
         <AddChannelModal
           teamId={team.id}
           open={openAddChannelModal} 
-          onClose={this.handleCloseAddChannelClick}
+          onClose={this.toggleAddChannelModal}
         />
         <InvitePeopleModal
           teamId={team.id}
           open={openInvitePeopleModal} 
-          onClose={this.handleCloseInvitePeopleClick}
+          onClose={this.toggleInvitePeopleModal}
         />
       </React.Fragment>
     );

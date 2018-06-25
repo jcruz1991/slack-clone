@@ -7,7 +7,15 @@ import _ from 'lodash';
 
 import { allTeamsQuery } from '../graphql/team';
 
-const AddChannelModal = ({ open, onClose,  values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+const AddChannelModal = ({ 
+    open, 
+    onClose,  
+    values, 
+    handleChange, 
+    handleBlur, 
+    handleSubmit, 
+    isSubmitting 
+}) => (
     <Modal 
       open={open} 
       onClose={onClose}
@@ -31,19 +39,10 @@ const AddChannelModal = ({ open, onClose,  values, handleChange, handleBlur, han
                         />
                     </Form.Field>
                     <Form.Group widths="equal">
-                        <Button 
-                          fluid
-                          onClose={onClose}
-                          disabled={isSubmitting}
-                        >
+                        <Button disabled={isSubmitting} fluid onClose={onClose}>
                             Cancel
                         </Button>
-                        <Button 
-                          fluid 
-                          type='submitting' 
-                          disabled={isSubmitting}
-                          onClick={handleSubmit}
-                        >
+                        <Button disabled={isSubmitting} fluid onClick={handleSubmit}>
                             Create Channel
                         </Button>
                     </Form.Group>
