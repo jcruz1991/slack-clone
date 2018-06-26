@@ -6,12 +6,18 @@ import path from 'path';
 import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
+import { createServer } from 'http';
+import { execute, subscribe } from 'graphql';
+import { PubSub } from 'graphql-subscriptions';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 
 import models from './models';
 import { refreshTokens } from './auth';
 
 const SECRET = 'asiodfhoi1hoi23jnl1kejd';
 const SECRET2 = 'asiodfhoi1hoi23jnl1kejasdjlkfasdd';
+
+const PORT = 8080;
 
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './schema')));
 
@@ -30,7 +36,9 @@ const addUser = async (req, res, next) => {
   const token = req.headers['x-token'];
   if (token) {
     try {
-      const { user } = jwt.verify(token, SECRET);
+      const {
+        user
+      } = jwt.verify(token, SECRET);
       req.user = user;
     } catch (err) {
       const refreshToken = req.headers['x-refresh-token'];
@@ -64,8 +72,20 @@ app.use(
   })),
 );
 
-app.use('/graphiql', graphiqlExpress({ endpointURL: graphqlEndpoint }));
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: graphqlEndpoint
+}));
 
+const server = createServer(app);
 models.sequelize.sync().then(() => {
-  app.listen(8080);
+  server.listen(PORT, () => {
+    new SubscriptionServer({
+      execute,
+      subscribe,
+      schema: schema,
+    }, {
+      server,
+      path: '/subscriptions',
+    });
+  });
 });
