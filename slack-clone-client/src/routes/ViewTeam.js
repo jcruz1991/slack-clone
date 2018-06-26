@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AppLayout from '../components/AppLayout';
 import Header from '../components/Header';
 import SendInput from '../components/SendInput';
-import Messages from '../components/Messages';
+import MessageContainer from '../containers/MessageContainer';
 import Sidebar from '../containers/Sidebar';
 import _ from 'lodash';
 import { Redirect } from 'react-router-dom';
@@ -43,22 +43,20 @@ class ViewTeam extends Component {
                   team={team}
                 />
 
-                <Header
-                  allTeams={team}
-                  channelName={channel.name}
-                />
+                { channel && (
+                    <Header
+                      allTeams={team}
+                      channelName={channel.name}
+                    />
+                )}
 
-                <Messages
-                  channelId={channel.id}
-                >
-                    <ul className="message-list">
-                    <li></li>
-                    <li></li>
-                    </ul>
-                </Messages>
+                { channel && (
+                    <MessageContainer channelId={channel.id} />
+                )}
                 
                 <SendInput 
                   channelName={channel.name}
+                  channelId={channel.id}
                 />
             </AppLayout>
         )

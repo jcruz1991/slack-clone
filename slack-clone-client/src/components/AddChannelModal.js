@@ -98,7 +98,7 @@ export default compose(
                   },
             });
             onClose();
-            setSubmitting = false;
+            setSubmitting(false);
         },
     }),
 )(AddChannelModal);
